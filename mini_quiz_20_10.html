@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini quiz 20/10 🌷</title>
+  <style>
+    :root {
+      --pink: #f7a8c4;
+      --pink-dark: #d94f86;
+      --cream: #fff9f5;
+      --ink: #63394d;
+      --soft: #ffe5ef;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px 14px;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 15%, #fff 0 3px, transparent 4px),
+        radial-gradient(circle at 85% 25%, #fff 0 4px, transparent 5px),
+        linear-gradient(135deg, #ffeaf2, #fff7ed 55%, #ffe0ec);
+      overflow-x: hidden;
+    }
+    .petal {
+      position: fixed;
+      top: -30px;
+      pointer-events: none;
+      opacity: .7;
+      animation: fall linear infinite;
+      z-index: 0;
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(360deg); }
+    }
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 620px);
+      padding: clamp(24px, 5vw, 42px);
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 28px;
+      background: rgba(255,255,255,.84);
+      box-shadow: 0 18px 55px rgba(190, 87, 130, .18);
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+    .flower { font-size: 42px; margin-bottom: 4px; }
+    h1 {
+      margin: 0 0 10px;
+      color: var(--pink-dark);
+      font-size: clamp(27px, 5vw, 38px);
+    }
+    .intro { margin: 0 auto 28px; line-height: 1.65; max-width: 440px; }
+    .question {
+      margin: 18px 0;
+      padding: 20px;
+      background: #fff8fb;
+      border: 1px solid #f8d4e2;
+      border-radius: 20px;
+      text-align: left;
+    }
+    .question h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .answers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    button, .web-link {
+      border: 0;
+      border-radius: 14px;
+      padding: 13px 12px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+    button {
+      color: var(--pink-dark);
+      background: white;
+      border: 1px solid #efb6cd;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 6px 14px #e9a6c055; }
+    button.selected { background: var(--pink-dark); color: white; border-color: var(--pink-dark); }
+    .status { min-height: 20px; font-size: 13px; margin-top: 9px; color: #9a6680; }
+    .finish { display: none; margin-top: 25px; animation: appear .55s ease both; }
+    .finish.show { display: block; }
+    .message {
+      padding: 22px 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ffe0ec, #fff2e7);
+      font-size: clamp(19px, 4vw, 24px);
+      font-weight: 800;
+      line-height: 1.6;
+    }
+    .web-link {
+      display: inline-block;
+      margin-top: 18px;
+      text-decoration: none;
+      color: white;
+      background: linear-gradient(135deg, #e85f98, #ce4e83);
+      box-shadow: 0 8px 18px #d94f8633;
+    }
+    .web-link:hover { transform: translateY(-2px); }
+    .hint { font-size: 13px; color: #9a6680; margin-top: 12px; line-height: 1.5; }
+    @keyframes appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 420px) {
+      .answers { grid-template-columns: 1fr; }
+      .question { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="flower" aria-hidden="true">🌷💗🌷</div>
+    <h1>Mini quiz 20/10</h1>
+    <p class="intro">Một chiếc mini quiz nho nhỏ dành cho các bạn nữ trong lớp nè. Trả lời cả hai câu để mở lời nhắn bí mật nhé! ✨</p>
+
+    <section class="question" aria-labelledby="q1-title">
+      <h2 id="q1-title">1. Ngày 20/10 là ngày gì?</h2>
+      <div class="answers">
+        <button type="button" data-question="1" data-answer="a">Ngày nhà giáo Việt Nam</button>
+        <button type="button" data-question="1" data-answer="b">Ngày phụ nữ Việt Nam</button>
+      </div>
+      <div class="status" id="status1" aria-live="polite"></div>
+    </section>
+
+    <section class="question" aria-labelledby="q2-title">
+      <h2 id="q2-title">2. Bạn đã nhận được món quà cho riêng mình nhân ngày 20/10 chưa?</h2>
+      <div class="answers">
+        <button type="button" data-question="2" data-answer="a">Chưa</button>
+        <button type="button" data-question="2" data-answer="b">Rùii 💝</button>
+      </div>
+      <div class="status" id="status2" aria-live="polite"></div>
+    </section>
+
+    <section class="finish" id="finish" aria-live="polite">
+      <div class="message">Dù đã được nhận món quà cho riêng mình hay chưa nhưng các bạn xứng đáng với những lời chúc tốt đẹp nhấttt 💐💖</div>
+      <a class="web-link" href="chuc_mung_20_10.html">🎁 Bấm vào đây để nhận lời chúc 20/10</a>
+      <p class="hint">Nếu đăng hai file lên cùng một nơi, hãy để file web lời chúc tên <strong>chuc_mung_20_10.html</strong> để nút này mở đúng trang nhé.</p>
+    </section>
+  </main>
+
+  <script>
+    const answers = { 1: null, 2: null };
+    const labels = {
+      1: { a: 'Bạn chọn: Ngày nhà giáo Việt Nam', b: 'Bạn chọn: Ngày phụ nữ Việt Nam' },
+      2: { a: 'Bạn chọn: Chưa', b: 'Bạn chọn: Rùii 💝' }
+    };
+
+    document.querySelectorAll('button[data-question]').forEach(button => {
+      button.addEventListener('click', () => {
+        const q = button.dataset.question;
+        const a = button.dataset.answer;
+        answers[q] = a;
+        document.querySelectorAll(`button[data-question="${q}"]`).forEach(b => {
+          b.classList.toggle('selected', b === button);
+          b.setAttribute('aria-pressed', b === button ? 'true' : 'false');
+        });
+        document.getElementById(`status${q}`).textContent = labels[q][a];
+        if (answers[1] && answers[2]) {
+          document.getElementById('finish').classList.add('show');
+          document.getElementById('finish').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          document.getElementById('finish').classList.remove('show');
+        }
+      });
+    });
+
+    const emojis = ['🌸', '💗', '🌷', '✨'];
+    for (let i = 0; i < 18; i++) {
+      const petal = document.createElement('span');
+      petal.className = 'petal';
+      petal.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = (7 + Math.random() * 9) + 's';
+      petal.style.animationDelay = (-Math.random() * 14) + 's';
+      petal.style.fontSize = (13 + Math.random() * 13) + 'px';
+      document.body.appendChild(petal);
+    }
+  </script>
+</body>
+</html>
